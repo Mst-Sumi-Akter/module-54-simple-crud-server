@@ -28,9 +28,16 @@ app.get('/', (req, res) => {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    await client.connect()
     const usersDB = client.db("usersDB");
     const usersCollection = usersDB.collection('users')
+    
+    app.get('/users',async(req,res)=>{
+      const cursor = usersCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+
+    })
 
     //add database related apis here
     app.post('/users',async(req,res)=>{
